@@ -8,6 +8,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useProductStore } from "../store/product";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
