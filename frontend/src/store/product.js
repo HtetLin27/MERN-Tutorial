@@ -20,4 +20,28 @@ export const useProductStore = create((set) => ({
     console.log(res.data);
     set({ products: res.data.data });
   },
+  deleteProduct: async (pid) => {
+    const res = await axios.delete(`/api/products/${pid}`);
+    console.log(res);
+    if (!res.data.success) return { success: false, message: res.data.message };
+    set((state) => ({
+      products: state.products.filter((product) => product._id !== pid),
+    }));
+
+    return { success: true, message: res.data.message };
+  },
+  updateProduct: async (pid, updateProduct) => {
+    const res = await axios.put(`/api/products/${pid}`, {
+      ...updateProduct,
+    });
+    console.log(res);
+    if (!res.data.success) return { success: false, message: res.data.message };
+    set((state) => ({
+      products: state.products.map((product) =>
+        product._id === pid ? res.data.data : product
+      ),
+    }));
+
+    return { success: true, message: res.data.message };
+  },
 }));
